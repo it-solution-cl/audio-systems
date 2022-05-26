@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="paperformat_audiosystems" model="report.paperformat">
+        <field name="name">audiosystems A4</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+
+        <field name="paperformat_id" ref="report_invoice.paperformat_audiosystems"/>
+
+    </record>
+
+
+    <template id="quotation_sale_document" name="quotation_sale_document" >
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div >
+                    <div class="row">
+                        <div class="col-6">
+                            <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 400px; max-width: 450px;margin-left: 15px;" alt="Logo"/></td><br/>
+                        </div>
+                        <div class="col-6" >
+                            <strong class="m-5" t-field="doc.company_id.name"/><br/>
+                            <span class="m-5">
+                                <b> 
+                                <span t-field="doc.company_id.street" />,
+                                <span t-field="doc.company_id.street2" />,
+                                <span t-field="doc.company_id.city" />,
+                                <span t-field="doc.company_id.country_id.name" />
+                                </b>
+                            </span> <br/>
+                            <strong class="m-5">CP: </strong><br/>
+                            <strong class="m-5">RUT: <span  t-field="doc.company_id.vat" /></strong> <br/>
+                            <strong class="m-5">Teléfono: <span  t-field="doc.company_id.phone" /></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="page">
+                    <span class="d-block p-1 bg-secondary text-white">COTIZACIÓN</span>
+                    <div class="row">
+                        <div class="col-2">
+                            <strong>RUT :</strong> <br/> 
+                            <strong>Cliente: </strong><br/>
+                            <strong>Atn: </strong><br/>
+                            <strong>Cotización N°: </strong><br/>
+                        </div>
+                        <div class="col-3">
+                            <strong><span t-field="doc.partner_id.vat" /></strong><br/>
+                            <strong><span t-field="doc.partner_id.name" /></strong><br/>
+                            <strong><span t-field="doc.user_id" /></strong><br/>
+                            <strong><span t-field="doc.name" /></strong><br/> 
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col-4 order-first" >
+                            <strong >Fono:  </strong>
+                            <strong><span  class ="m-3" t-field="doc.partner_id.phone" /></strong>
+                        </div>
+                        <div class="col-4.5" >
+                            <strong >Emisión:  </strong>
+                            <strong><span  class ="m-3" t-field="doc.date_order" /><br/></strong>
+                            <strong >TC:  </strong>
+                            <strong><span  class ="m-3" t-field="doc.currency_id" /></strong>
+                        </div>
+                        <div class="col-5 order-last" >
+                            <strong >Vencimiento:  </strong>
+                            <strong><span  class ="m-3" t-field="doc.validity_date" /></strong>
+                        </div>
+                    </div>
+                    <hr style="border-top: 5px solid rgb(128, 128, 128);" />
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center" scope="col">Item</th>
+                                <th style="text-align: center" scope="col">Cod. Prod</th>
+                                <th style="text-align: center" scope="col">Descripción</th>
+                                <th style="text-align: center" scope="col">Unid.</th>
+                                <th style="text-align: center" scope="col">Cant.</th>
+                                <th style="text-align: center" scope="col">Precio Unit.</th>
+                                <th style="text-align: center" scope="col">%Desc</th>
+                                <th style="text-align: center" scope="col">Precio</th>
+                                <th style="text-align: center" scope="col">Total $</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="contador" t-value="int(0)"/>
+                                <tr t-foreach="doc.order_line" t-as="o">
+                                    <t t-set="contador" t-value="contador +1"/>
+                                    <td align="center">
+                                        <span ><t t-esc="contador"/></span>
+                                    </td>
+                                    <td align="center"><span t-field="o.product_id.default_code" /></td>
+                                    <td align="center"><span t-field="o.product_id.name" /></td>
+                                    <td align="center"><span t-field="o.product_uom" /></td>
+                                    <td align="center"><span t-field="o.product_uom_qty" /></td>
+                                    <td align="center"><span t-field="o.price_unit" /></td>
+                                    <td align="center"><span t-field="o.discount" /></td>
+                                    <td align="center"><span t-field="o.price_unit" /></td>
+                                    <td align="center"><span t-field="o.price_total" /></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div class="row">
+                    <div class="col-8 order-first ">
+                        <strong ><u>Observaciones:  </u></strong><br/>
+                        <strong class ="m-3">Esta cotización tiene una validez hasta:</strong><span class="m-5" t-field="doc.validity_date"></span><br/>
+                        <strong class ="m-3">Condiciones de Pago: </strong><span class="m-5" t-field="doc.payment_term_id"></span><br/>
+                        <strong class ="m-3">Comentarios:  </strong><span class="m-5" t-field="doc.note"></span>
+                    </div>
+                    <div class="col-2" align="center">
+                        <strong >Neto  </strong><br/>
+                        <strong >Descuento  </strong><br/>
+                        <strong >Total Neto </strong><br/>
+                        <strong >IVA </strong><br/>
+                        <strong >Total </strong>
+                    </div>
+                    <div class="col-2 " align="right">
+                        <span   t-field="doc.amount_untaxed" /><br/>
+                        <!-- <span  class ="m-5" t-field="doc.discount"/><br/> -->
+                        <span  /><br/>
+                        <span   /><br/>
+                        <span   t-field="doc.amount_tax" /><br/>
+                        
+                        <span  t-field="doc.amount_total" /><br/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="sale_note_document" name="sale_note_document">
+        
+        <t t-call="web.basic_layout">
+            <div class="row">
+                <div class="row justify-content-between">
+                    <div class="col-7">
+                        <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 400px; max-width: 450px;margin-left: 15px;" alt="Logo"/></td><br/>
+                    </div> 
+                    <div class="col-5">
+                        
+                        <span t-field="doc.company_id.name"></span>
+                        <span t-field="doc.company_id.street"></span>
+                        <span t-field="doc.company_id.street2"></span>
+                        <span t-field="doc.company_id.city"></span>
+                        <span t-field="doc.company_id.country_id.name"></span><br/>
+
+                        
+                        <span> CP :</span><span t-field="doc.company_id.zip"></span><br/>
+                        
+                        <span> RUT :</span><span t-field="doc.company_id.vat"></span><br/>
+
+                        <span> Telefono :</span><span t-field="doc.company_id.phone"></span>
+                
+                    </div>    
+                    
+                </div>
+           
+            </div>    
+
+            <div class="page">
+                <strong class="d-block p-2 bg-secondary text-black">Nota de Venta Nº: <span  t-field="doc.name" /></strong> <br/>
+                    <div class="row justify-content-between">
+                        <div class="col-7">    
+                        
+                            <Strong> Razon Social :</Strong><span class ="m-5" t-field="doc.partner_id"></span><br/>
+
+                            <Strong> Direccion :</Strong><span class ="m-5" t-field="doc.partner_id.street"></span><br/>
+
+                            <Strong> Telefono :</Strong><span class ="m-5" t-field="doc.partner_id.phone"></span><br/>
+
+                            <Strong> Atencion a :</Strong><span class ="m-5" t-field="doc.partner_id.name"></span>
+                                
+                        </div>
+                        <div class="col-6">
+                            <Strong> RUT :</Strong><span class ="m-5" t-field="doc.partner_id.vat"></span><br/>
+                            
+                            <Strong> O.C.Nº:</Strong>
+                        </div>    
+
+                    </div>
+                    <br></br><br></br>  
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" scope="col">Item</th>
+                            <th style="text-align: center" scope="col">Cod. Prod</th>
+                            <th style="text-align: center" scope="col">Descripcion</th>
+                            <th style="text-align: center" scope="col">Cant.</th>
+                            <th style="text-align: center" scope="col">Cant.Pend.</th>
+                            <th style="text-align: center" scope="col">Fecha Entrega</th>
+                            <th style="text-align: center" scope="col">Precio Unit.</th>
+                            <th style="text-align: center" scope="col">Total</th>
+
+
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="contador" t-value="int(0)"/>
+                            <tr t-foreach="doc.order_line" t-as="o">
+                                <t t-set="contador" t-value="contador +1"/>
+                                <td align="center">
+                                    <span ><t t-esc="contador"/></span>
+                                </td>
+                            <td align="center">
+                                <span t-field="o.product_template_id.default_code"/>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.product_id.name"></span>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.product_uom_qty"></span>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.product_uom_qty"></span>
+                            </td>
+                            <td align="center">
+                                <span t-field="doc.commitment_date"></span>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.price_unit"></span>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.price_total"></span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+                <br></br><br></br><br></br><br></br>
+
+                <!--**aca es ta el pie de pagina donde hasta forma de pago va a la izquierda-->
+                <div class="row">
+                    <div class="col-8 order-first">
+                        <Strong></Strong><br/>
+                        <Strong></Strong><br/>
+                        
+                        <Strong> Observaciones :</Strong><br/>
+                        <span class ="m-5" t-field="doc.note"></span><br/><br/><br/>
+                        <Strong> Forma de Pago :</Strong><br/>
+                        <span class ="m-5" t-field="doc.payment_term_id"></span>
+                    </div>
+                <!--**aca es ta el pie de pagina aca ya va ala derecha-->        
+                    <div class="col-2" align="center">
+                        <Strong>Base I. :</Strong><br/>
+                        <Strong>IVA :</Strong><br/>
+                        <Strong> Total :</Strong><br/>
+                    </div>
+
+                    <div class="col-2 " align="right">
+                        <span t-field="doc.amount_untaxed"/><br/>
+                        <span  t-field="doc.amount_tax"/><br/>
+                        <span  t-field="doc.amount_total"/><br/>
+                    </div>
+                </div>        
+                
+            <!--     <div class="row justify-content-between">
+                    <div class="col-7">
+                        <Strong></Strong><br/>
+                        <Strong></Strong><br/>
+                        
+                        <Strong> Observaciones :</Strong><br/>
+                        <span class ="m-5" t-field="doc.note"></span><br/><br/><br/>
+                        <Strong> Forma de Pago :</Strong><br/>
+                        <span class ="m-5" t-field="doc.payment_term_id"></span>
+                    </div>    
+                
+                    
+                        
+                    <div class="col-4 text-align=right">
+                        <Strong> Base I.:</Strong><span class ="m-5" t-field="doc.amount_untaxed"></span><br/>
+                        <Strong> IVA :</Strong><span class ="m-5" t-field="doc.amount_tax"></span><br/>
+                        <Strong> Total:</Strong><span class ="m-5" t-field="doc.amount_total"></span>   
+                        
+                    </div>  
+                    
+                </div> -->
+                   
+            
+
+            </div>
+
+            
+        </t>
+
+    </template>
+
+        <template id="quotation_sale" name="Sale" inherit_id="sale.report_saleorder">
+            <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="replace">
+                <t t-if="doc.state=='draft'">
+                    <t t-call="report_invoice.quotation_sale_document" t-lang="doc.partner_id.lang"/>
+                </t>
+                <t t-else="">
+                    <t t-call="report_invoice.sale_note_document" t-lang="doc.partner_id.lang"/>
+                </t>
+            </xpath>
+        </template>
+
+</odoo>

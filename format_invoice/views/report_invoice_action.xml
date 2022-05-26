@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+        
+<odoo>
+    <data>
+   
+
+    <record id="kendatec_report" model="ir.actions.report">
+        <field name="name">Boleta / Factura</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_invoice.report_template_kendatec</field>
+        <field name="report_file">report_invoice.report_template_kendatec</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_invoice.paperformat_audiosystems"/>
+    </record>
+
+
+    </data>
+</odoo>
+

@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="paperformat_audiosystems" model="report.paperformat">
+        <field name="name">audiosystems A4</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+
+        <field name="paperformat_id" ref="report_invoice.paperformat_audiosystems"/>
+
+    </record>
+
+    <template id="report_puchase_template" name= "purchase" inherit_id="purchase.report_purchaseorder"> 
+        <xpath expr="//t[@t-call='purchase.report_purchaseorder_document']" position="replace">
+    
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    
+                    <div>
+                        <div class="row justify-content-between">
+                            <div class="col-0"> 
+                                <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 400px; max-width: 600px;margin-left: 15px;" alt="Logo"/></td><br/>
+                            </div>
+                            <div class="col-7"> 
+                                <div class="col order-2" t-if="doc.company_id.name">
+                                    <strong class="m-5" t-field="doc.company_id.name"/><br/>
+                                    <strong class="m-5">RUT: <span  t-field="doc.company_id.vat" /></strong> <br/>
+                                    <strong class="m-5">Direccion:
+                                        <span t-field="doc.company_id.street" />,
+                                        <span t-field="doc.company_id.street2" />,
+                                        <span t-field="doc.company_id.city" />,
+                                        <span t-field="doc.company_id.country_id.name" />
+                                        
+                                    </strong> <br/>
+                                    <strong class="m-5">Teléfono: <span  t-field="doc.company_id.phone" /></strong>
+                                </div>
+                            
+                            </div>
+                        </div>
+
+                    
+                    </div>
+                
+                    <div class="page">
+                        <div>
+                            <strong class="d-block p-2 bg-secondary text-black">ORDEN DE COMPRA/PO N°: <span  t-field="doc.name" /></strong> <br/>
+                    
+                        </div>
+                        <div class="row justify-content-between">
+                            
+                           
+                            <div class="col-7">    
+                            
+                                <strong>Señores :</strong><span class= "m-3" t-field="doc.partner_id"></span><br/>
+
+                                <strong> Atencion :</strong><span class= "m-3" t-field="doc.user_id.name"></span><br/>
+
+                                <strong> Telefono :</strong><span class= "m-3" t-field="doc.partner_id.phone"></span><br/>
+                                <strong> Fax :</strong><br/>
+                                <strong> Direccion:</strong>
+                                    <span  class= "m-3" t-field="doc.partner_id.street"/>,
+                                    <span t-field="doc.partner_id.street2"/>,
+                                    <span t-field="doc.partner_id.city"/>
+                                <br/>
+                                <strong> Despachar a:</strong><span class= "m-3"  t-field="doc.picking_type_id"></span>
+                                        
+                            </div>
+                            <div class="col-6">
+                                <strong> Fecha O.C. :</strong><span class= "m-3"  t-field="doc.date_approve"></span><br/>
+                                <strong> Fecha Entrega :</strong><span class= "m-3" t-field="doc.date_planned"></span><br/>
+                                <strong> RUT:</strong><span class= "m-5"  t-field="doc.partner_id.vat"></span>
+                            </div>    
+
+                        
+                        </div>
+                        
+                        <div class="row justify-content-between">
+                            <div class="col-5">
+                        
+                                <span></span>
+                        
+                            </div>   
+                            <div class="col-6"> 
+                                <strong>Forma de Pago:</strong><span  class= "m-4" t-field="doc.payment_term_id.name"></span>
+                            
+                            </div>
+                        
+                        </div>                        
+                        
+                        <table class="table table-sm" style="border:none;">
+                            <thead>
+                                <th style="text-align: center" scope="col">Item</th>
+                                <th style="text-align: center" scope="col">Codigo</th>
+                                <th style="text-align: center" scope="col">Descripcion</th>
+                                <th style="text-align: center" scope="col">Moneda</th>
+                                <th style="text-align: center" scope="col">UdM</th>
+                                <th style="text-align: center" scope="col">Cantidad</th>
+                                <th style="text-align: center" scope="col">Descuento</th>
+                                <th style="text-align: center" scope="col">Precio Unit.</th>
+                                <th style="text-align: center" scope="col">Total</th>
+                                </thead>
+                            <tbody>
+                                <t t-set="contador" t-value="int(0)"/>
+
+                                <tr t-foreach="docs.order_line" t-as="o" >
+                                    <t t-set="contador" t-value="contador +1"/>
+                                    <td style="border:none;">
+                                        <span ><t t-esc="contador"/></span>
+                                    </td>
+                                    <td style="border:none; text-align:center">
+                                        <span t-field="o.product_id.default_code"></span>
+                                    </td>
+                                    <td style="border:none">
+                                        <span t-field="o.product_id.name"></span>
+                                    </td>
+                                    <td style="border:none; text-align:center">
+                                        <span t-field="o.currency_id"></span>
+                                    </td>
+                                    <td style="border:none; text-align:center"> 
+                                        <span t-field="o.product_uom.name"></span>
+                                    </td>
+                                    <td style="border:none; text-align:center"> 
+                                        <span t-field="o.product_qty"></span>
+                                    </td>
+                                    <td style="border:none; text-align:center">
+                                        <span ></span>
+                                    </td>
+                                    <td style="border:none; text-align:center">
+                                        <span t-field="o.price_unit"></span>
+                                    </td>
+                                    <td style="border:none; text-align:center">
+                                        <span t-field="o.price_subtotal"></span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table><br/><br/><br/><br/>
+                        <div id="total" class="row justify-content-end">
+                            <div class="col-3">
+                                <table>
+                                    <tr>
+                                        <td name="td_subtotal_label"><strong>Neto</strong></td>
+                                        <td style="text-align: right" >
+                                            <span  class="m-5" t-field="doc.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td name="td_taxes_label"><strong>Descuento</strong></td>
+                                        <td style="text-align: right" >
+                                            <span  class="m-5"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td name="td_taxes_label"><strong>IVA</strong></td>
+                                        <td style="text-align: right">
+                                            <span  class="m-5" t-field="doc.amount_tax"
+                                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td style="margin-left:50px" name="td_amount_total_label"><strong>Total</strong></td>
+                                        <td style="text-align: right" >
+                                            <span  class="m-5" t-field="doc.amount_total"
+                                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Observaciones:</strong>
+                            <p t-field="doc.notes"/>
+                        </div>
+                                <div class="oe_structure"/><br/><br/><br/><br/><br/>
+
+                        <div class="row justify-content-between">
+                            <div class="col-7">
+                        
+                                <span> </span>
+                        
+                            </div>    
+                    
+                            <div align="left">
+                                <div align="center">
+                                <strong>__________________________________________________</strong><br/>
+                                
+                                <strong > Nombre y Firma Autorizada</strong><br/>
+                                </div>
+                            
+                            </div> 
+
+                        </div> 
+
+                    </div> 
+                    
+                    
+                   
+                </t>
+            </t>
+        </xpath>      
+  </template>
+</odoo>
+   

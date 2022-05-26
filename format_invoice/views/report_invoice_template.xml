@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data >
+        <template id="template_boleta" name="template_name">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <div >
+                            <div class="row justify-content-between">
+        
+                                <div class="col-7" style="text-align:center; text-transform: uppercase;font-size: 13pt;padding:20px">
+                                    <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 500px; max-width: 600px; margin-top: 5px; margin-left: 15px;" alt="Logo"/></td><br/>
+        
+                                </div>
+        
+                                <div class="col-8" style="color:red; padding:15px; width:1250px;margin-left:18px"> 
+                                    <div class="col-7 " style="text-align:center;border: 5px solid red;font-size: 18pt">
+                                        <strong > R.U.T <span class= "m-3" t-field="doc.company_id.vat"/></strong><br/><br/>
+                                        <strong style="text-align:center;font-family: serif"> BOLETA ELECTRONICA</strong><br/><br/>
+                                        <t t-set="name_split" t-value="doc.name.split(' ')"/>
+                                        <strong> N° <span class= "m-3" t-esc="name_split[1]"/></strong>
+                                    </div>
+                                    <div class="col-7" style="color:red;text-align:center">
+                                        <span >S.I.I - SANTIAGO NORTE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div > 
+                            <div class="row">
+        
+                                <div class="col-7" style="width:700px;margin-left:12px;text-align:center">
+                                    <span class="m-5" t-field="doc.company_id.name"/><br/>
+                                    <span class="m-5">GIRO: <span  t-field="doc.company_id.l10n_cl_activity_description" /></span> <br/>
+                                    <span class="m-5">CASA MATRIZ:
+                                        <span t-field="doc.company_id.street" />,
+                                        <span t-field="doc.company_id.street2" />,
+                                        <span t-field="doc.company_id.city" />,
+                                        <span t-field="doc.company_id.country_id.name" />
+        
+                                    </span> <br/>
+                                    <span class="m-5">TELEFONO: <span  t-field="doc.company_id.phone" /></span> <br/>
+                                    <span class="m-5">SUCURSAL :<span  t-field="doc.company_id.city" /></span> <br/>
+        
+                                    <span style="text-transform:none" class="m-5" >E-MAIL: <span t-field="doc.company_id.email" /><span> - </span><span  t-field="doc.company_id.website" /></span>
+                                </div>
+                                <div class="col-5" style="width:418px;margin-left:20px">
+        
+        
+                                    <div style="width:310px;height:30px;margin-left:100px;border-radius: 15px;border: 1px solid black">
+        
+                                        <Strong style="margin-left:10px">FECHA EMISION:</Strong>
+        
+                                        <span t-field="doc.invoice_date"></span>
+        
+        
+                                    </div>
+                                    <br/>
+                                    <Strong>DATOS SUCURSAL</Strong>
+                                    <div style="width:410px;height:90px;border-radius: 15px;border: 1px solid black">
+        
+                                        <span style="margin-left:10px">CODIGO:</span><br/>
+                                        <span style="margin-left:10px">DIRECCION:<span t-field="doc.company_id.street" /></span><br/>
+                                        <span style="margin-left:10px">COMUNA:<span t-field="doc.company_id.street2" /></span>
+                                        <span class="m-2">CIUDAD:<span t-field="doc.company_id.city" /></span>  
+                                    </div>    
+                                </div>
+        
+        
+                            </div> 
+                        </div> 
+        
+                        <div style="margin-top:10px;">
+                            <Strong>DATOS RECEPTOR</Strong>
+                            <div class="row">
+        
+                                <div class="col-12" style="width:1110px ;margin-left:12px;border-radius: 15px;border: 1px solid black;text-transform:uppercase">
+                                    <div class="row justify-content-between">
+                                        <div class="col-2">
+                                            <Strong> RUT:</Strong><br />
+                                            <span t-field="doc.partner_id.vat"></span><br />
+                                        </div>
+                                        <div class="col-2">
+                                            <Strong> NOMBRE:</Strong><br />
+                                            <span t-field="doc.partner_id.name"></span><br />
+                                        </div>
+                                        <div class="col-3">
+                                            <Strong> DIRECCION:</Strong><br />
+                                            <span t-field="doc.partner_id.street"></span><br />
+                                        </div>
+                                        <div class="col-2">
+                                            <Strong> COMUNA:</Strong><br />
+                                            <span t-field="doc.company_id.street2"></span><br />
+                                        </div>
+                                        <div class="col-2">
+                                            <Strong> CIUDAD:</Strong><br />
+                                            <span t-field="doc.company_id.city"></span><br />
+                                        </div> 
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div><br/>                         
+                        <div class="page" >
+                            <div style="border-radius: 15px;border: 2px solid black;height: 700px;">
+                                <table class="table table-borderless" >
+                                    <thead style="border-bottom:1px solid black;">
+                                        <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">CANTIDAD</th>
+                                        <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DETALLE </th>
+                                        <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">PRECIO UNITARIO </th>
+                                        <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DESCUENTO</th>
+                                        <th style="text-align: center;" scope="col">PRECIO ITEM</th>
+                                    </thead>
+                                        <tbody >
+                                            <tr t-foreach="doc.invoice_line_ids" t-as="o" >
+                                                <td style="text-align: left;font-size: 10pt">
+                                                    <span t-field="o.quantity"></span>
+                                                </td > 
+                                                <td style="text-align: left;font-size: 10pt">
+                                                    <span t-field="o.name"></span>
+                                                </td>
+                                                <td style="text-align: right;font-size: 10pt">
+                                                    <span t-field="o.price_unit"></span>
+                                                </td>
+                                                <td style="text-align: right;font-size: 10pt">
+                                                    <span t-field="o.discount"></span>
+                                                </td>
+                                                <td style="text-align: right;font-size: 10pt"> 
+                                                    <span t-field="o.price_unit"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div><br/>
+                        <div >
+                        <span>NOTA:<span class="m-3" t-field="doc.narration"/></span><br /> <br /> 
+                        <span>COND. DE PAGO:<span class="m-3" t-field="doc.invoice_payment_term_id.name"/></span><br />
+        
+                            <Strong>DATOS DE REFERENCIA</Strong>
+                            <div class="row">
+        
+                                <div class="col-5" style="width:500px;height:200px;margin-left:12px;border-radius: 15px;border: 1px solid black"><br/>
+        
+                                </div>
+        
+                                <div class="col-4" style="width:400px;margin-top:0px">
+                                    <t t-if="doc.l10n_cl_sii_barcode">
+                                        <t t-set="barcode_stamp" t-value="doc._pdf417_barcode(doc.l10n_cl_sii_barcode)"/>
+                                        <t t-if="barcode_stamp">
+                                            <img class="img-fluid" t-attf-src="data:image/*;base64,{{barcode_stamp}}" style="width:400px"/>
+                                            <p t-att-style="'color: %s;' % doc.company_id.primary_color" class="text-center small">
+                                                Timbre Electrónico SII<br />
+                                                Resolución Nº: <span t-field="doc.company_id.l10n_cl_dte_resolution_number"/>
+                                                de Fecha: <span t-field="doc.company_id.l10n_cl_dte_resolution_date" t-field-options='{"widget": "date"}'/>
+                                                <span name="verification_url">Verifique documento en www.sii.cl</span>
+                                            </p>
+                                        </t>
+                                    </t>
+                                </div>
+    
+                                <div class="col-3" style="width:260px;border-radius:15px;border: 1px solid black"> 
+                                    <br/>
+                                    <div>
+                                        <div class="row justify-content-between" style=" font-size:85%">
+                                            <div class="col-7">
+                                                <span>Dcto.  </span> <br/> <br/>
+                                                <span>MONTO NETO </span><br/>
+                                                <span>MONTO IVA 19% </span><br/>
+                                                <span>MONTO EXENTO </span><br/><br/>
+                                                <strong>MONTO TOTAL</strong>
+                                            </div>
+                                            <div class="col-5" style="text-align: right">
+                                                <span t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                                <strong t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                                <strong t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                                <strong /><br/> <br/>
+                                                <strong  t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/>
+                                            </div>
+                                        </div>
+                                        <!-- <br/>
+                                        <span >Dcto.  </span> <span class="m-5"  t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                        <span >MONTO Neto <strong class="m-3" style="margin-left:20px" t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></span><br/>
+                                        <span >MONTO IVA 19% <strong class="m-2"  t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/> </span><br/>
+                                        <span >MONTO EXENTO </span><br/>
+                                
+                                        <strong >MONTO TOTAL <span class="m-2" t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></strong> -->
+                                    </div>
+        
+                                </div>
+        
+                            </div> 
+                        </div> 
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="template_ncredito" name="template_name">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div >
+                        <div class="row justify-content-between">
+                            
+                            <div class="col-7" style="text-align:center; text-transform: uppercase;font-size: 13pt"> 
+                                <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 500px; max-width: 600px; margin-top: 5px; margin-left: 15px;" alt="Logo"/></td><br/>
+                                <span class="m-5" t-field="doc.company_id.name"/><br/>
+                                <span class="m-5">GIRO: <span  t-field="doc.company_id.l10n_cl_activity_description" /></span> <br/>
+                                <span class="m-5">CASA MATRIZ:
+                                    <span t-field="doc.company_id.street" />,
+                                    <span t-field="doc.company_id.street2" />,
+                                    <span t-field="doc.company_id.city" />,
+                                    <span t-field="doc.company_id.country_id.name" />
+                                
+                                </span> <br/>
+                                <span class="m-5">TELEFONO: <span  t-field="doc.company_id.phone" /></span> <br/>
+                                <span class="m-5">SUCURSAL :<span  t-field="doc.company_id.city" /></span> <br/>
+                                
+                                <span style="text-transform:none" class="m-5" >E-MAIL: <span t-field="doc.company_id.email" /><span> - </span><span  t-field="doc.company_id.website" /></span>
+                            </div>
+
+                            <div class="col-8" style="color:red; padding:50px; width:1250px;margin-left:18px"> 
+                                <div class="col-7 " style="text-align:center;border: 5px solid red;font-size: 18pt">
+                                    <strong > R.U.T <span class= "m-3" t-field="doc.company_id.vat"/></strong><br/><br/>
+                                    <strong style="text-align:center;font-family: serif"> FACTURA ELECTRONICA</strong><br/><br/>
+                                    <t t-set="name_split" t-value="doc.name.split(' ')"/>
+                                    <strong> N° <span class= "m-3" t-esc="name_split[1]"/></strong>
+                                </div>
+                                <div class="col-7" style="color:red;text-align:center">
+                                    <span >S.I.I - SANTIAGO NORTE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div > 
+                        <div class="row">
+                            
+                            <div class="col-7" style="width:700px;margin-left:12px;border-radius: 15px;border: 1px solid black">
+                                <Strong>SEÑORES : </Strong> <span t-field="doc.partner_id.name"></span><br/>
+                                <Strong>DIRECCIÓN : </Strong> <span t-field="doc.partner_id.street"></span><br/>
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong>COMUNA:</Strong> <span t-field="doc.partner_id.city"></span><br />
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> CIUDAD:</Strong> <span t-field="doc.partner_id.city"></span><br />
+                                    </div>
+                                    
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> R.U.T:</Strong> <span t-field="doc.partner_id.vat"></span><br />
+                                        
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> TELEFONO:</Strong> <span t-field="doc.partner_id.phone"></span><br />
+                                    
+                                    </div>
+                                    
+                                </div>
+                                <Strong> GIRO : </Strong> <span t-field="doc.partner_id.l10n_cl_activity_description"></span><br/>
+                                <Strong> CÓDIGO : </Strong> <span t-field="doc.partner_id.vat"></span><br/>
+                            </div>
+                            <div class="col-5" style="width:418px;margin-left:20px;border-radius: 15px;border: 1px solid black">
+                                <Strong> FECHA EMISIÓN : </Strong> <span t-field="doc.invoice_date"></span><br/>
+                                <Strong> FECHA VENCIMIENTO : </Strong> <span t-field="doc.invoice_date"></span><br/>
+                                <Strong> TIPO DESPACHO : </Strong> <span ></span><br/>
+                                <Strong> FORMA DE PAGO : </Strong> <span ></span><br/>
+                                <Strong> COND. DE PAGO : </Strong> <span t-field="doc.invoice_payment_term_id.name"/><br/>
+                                <Strong> VENDEDOR : </Strong> <span t-field="doc.invoice_user_id.name"></span><br/>
+                                
+                            </div>
+                            
+                        </div> 
+                    </div> 
+                    <div style="margin-top:10px;">
+                        
+                        <div class="row">
+                            
+                            <div class="col-5" style=" width:420px;margin-left:12px;border-radius: 15px;border: 1px solid black">
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Tipo de documento:</Strong><br />
+                                        <span t-field="doc.l10n_latam_document_type_id.name"></span><br />
+                                    </div>
+                                    <div class="col-3">
+                                        <Strong> Folio:</Strong><br />
+                                        <t t-set="name_split" t-value="doc.name.split(' ')"/>
+                                      
+                                        <span> <t t-esc="name_split[1]"/></span><br />
+                                    </div>
+                                    <div class="col-4">
+                                        <Strong> Fecha:</Strong><br />
+                                        <span t-field="doc.invoice_date"></span><br />
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-7" style="width:790px;margin-left:20px;border-radius: 15px;border: 1px solid black">
+                                <Strong> Direccion Origen : </Strong> <span t-field="doc.company_id.street"></span><br/>
+                                
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Comuna:</Strong> <span t-field="doc.company_id.city"></span><br/>
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> Ciudad:</Strong> <span t-field="doc.company_id.city"></span><br/>
+                                    </div>
+                                </div>
+                                <Strong> Direccion Destino :</Strong> <span t-field="doc.partner_id.street"></span><br/>
+                                
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Comuna:</Strong> <span t-field="doc.partner_id.city"></span><br/>
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> Ciudad:</Strong> <span t-field="doc.partner_id.city"></span><br/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div><br/>                         
+                    <div class="page" >
+                        <div style="border-radius: 15px;border: 2px solid black;height: 700px;">
+                            <table class="table table-borderless" >
+                                <thead style="border-bottom:1px solid black;">
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">CANTIDAD</th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DETALLE </th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">PRECIO UNITARIO </th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DESCUENTO</th>
+                                    <th style="text-align: center;" scope="col">PRECIO ITEM</th>
+                                </thead>
+                                    <tbody >
+                                        <tr t-foreach="doc.invoice_line_ids" t-as="o" >
+                                            <td style="text-align: left;font-size: 10pt">
+                                                <span t-field="o.quantity"></span>
+                                            </td > 
+                                            <td style="text-align: left;font-size: 10pt">
+                                                <span t-field="o.name"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt">
+                                                <span t-field="o.price_unit"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt">
+                                                <span t-field="o.discount"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt"> 
+                                                <span t-field="o.price_unit"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div><br/>
+                    <div> 
+                        <div class="row">
+                            
+                            <div class="col-5" style="width:500px;margin-left:12px;border-radius: 15px;border: 1px solid black"><br/>
+                                <span>NOMBRE :______________________________</span> 
+                                <span>RUT :______________</span> 
+                                <span>RECINTO:___________________________________________________</span> <br/>
+                                <span> FECHA:_________________ FIRMA:____________________________</span><br/>
+                                <span> El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto
+                                        en la letra b) del Art. 4º y la letra c) del Art. 5º de la Ley 19.983, acredita
+                                        que la entrega de las mercaderias o servicio(s) prestado(s) ha(n) sido
+                                        recibidos(s).</span><br/>
+                            </div>
+
+                            <div class="col-4" style="width:400px;margin-top:0px">
+                                <t t-if="doc.l10n_cl_sii_barcode">
+                                    <t t-set="barcode_stamp" t-value="doc._pdf417_barcode(doc.l10n_cl_sii_barcode)"/>
+                                    <t t-if="barcode_stamp">
+                                        <img class="img-fluid" t-attf-src="data:image/*;base64,{{barcode_stamp}}" style="width:400px"/>
+                                        <p t-att-style="'color: %s;' % doc.company_id.primary_color" class="text-center small">
+                                            Timbre Electrónico SII<br />
+                                            Resolución Nº: <span t-field="doc.company_id.l10n_cl_dte_resolution_number"/>
+                                            de Fecha: <span t-field="doc.company_id.l10n_cl_dte_resolution_date" t-field-options='{"widget": "date"}'/>
+                                            <span name="verification_url">Verifique documento en www.sii.cl</span>
+                                        </p>
+                                    </t>
+                                </t>
+                            </div>
+
+                            <div class="col-3" style="width:260px;border-radius:15px;border: 1px solid black"> 
+                                <br/>
+                                <div>
+                                    <div class="row justify-content-between" style=" font-size:85%">
+                                        <div class="col-7">
+                                            <span>Dcto.  </span> <br/> <br/>
+                                            <span>MONTO NETO </span><br/>
+                                            <span>MONTO IVA 19% </span><br/>
+                                            <span>MONTO EXENTO </span><br/><br/>
+                                            <strong>MONTO TOTAL</strong>
+                                        </div>
+                                        <div class="col-5" style="text-align: right">
+                                            <span t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                            <strong t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                            <strong t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                            <strong /><br/> <br/>
+                                            <strong  t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/>
+                                        </div>
+                                    </div>
+                                    <!-- <br/>
+                                    <span >Dcto.  </span> <span class="m-5"  t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                    <span >MONTO Neto <strong class="m-3" style="margin-left:20px" t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></span><br/>
+                                    <span >MONTO IVA 19% <strong class="m-2"  t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/> </span><br/>
+                                    <span >MONTO EXENTO </span><br/>
+                            
+                                    <strong >MONTO TOTAL <span class="m-2" t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></strong> -->
+                                </div>
+                            </div>
+                            
+                        </div> 
+                    </div> 
+                </t>  
+            </t>
+        </template>
+        <template id="template_factura" name="template_name">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div >
+                        <div class="row justify-content-between">
+                            
+                            <div class="col-7" style="text-align:center; text-transform: uppercase;font-size: 13pt"> 
+                                <td><img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 500px; max-width: 600px; margin-top: 5px; margin-left: 15px;" alt="Logo"/></td><br/>
+                                <span class="m-5" t-field="doc.company_id.name"/><br/>
+                                <span class="m-5">GIRO: <span  t-field="doc.company_id.l10n_cl_activity_description" /></span> <br/>
+                                <span class="m-5">CASA MATRIZ:
+                                    <span t-field="doc.company_id.street" />,
+                                    <span t-field="doc.company_id.street2" />,
+                                    <span t-field="doc.company_id.city" />,
+                                    <span t-field="doc.company_id.country_id.name" />
+                                
+                                </span> <br/>
+                                <span class="m-5">TELEFONO: <span  t-field="doc.company_id.phone" /></span> <br/>
+                                <span class="m-5">SUCURSAL :<span  t-field="doc.company_id.city" /></span> <br/>
+                                
+                                <span style="text-transform:none" class="m-5" >E-MAIL: <span t-field="doc.company_id.email" /><span> - </span><span  t-field="doc.company_id.website" /></span>
+                            </div>
+
+                            <div class="col-8" style="color:red; padding:50px; width:1250px;margin-left:18px"> 
+                                <div class="col-7 " style="text-align:center;border: 5px solid red;font-size: 18pt">
+                                    <strong > R.U.T <span class= "m-3" t-field="doc.company_id.vat"/></strong><br/><br/>
+                                    <strong style="text-align:center;font-family: serif"> FACTURA ELECTRONICA</strong><br/><br/>
+                                    <t t-set="name_split" t-value="doc.name.split(' ')"/>
+                                    <strong> N° <span class= "m-3" t-esc="name_split[1]"/></strong>
+                                </div>
+                                <div class="col-7" style="color:red;text-align:center">
+                                    <span >S.I.I - SANTIAGO NORTE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div > 
+                        <div class="row">
+                            
+                            <div class="col-7" style="width:700px;margin-left:12px;border-radius: 15px;border: 1px solid black">
+                                <Strong>SEÑORES : </Strong> <span t-field="doc.partner_id.name"></span><br/>
+                                <Strong>DIRECCIÓN : </Strong> <span t-field="doc.partner_id.street"></span><br/>
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong>COMUNA:</Strong> <span t-field="doc.partner_id.city"></span><br />
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> CIUDAD:</Strong> <span t-field="doc.partner_id.city"></span><br />
+                                    </div>
+                                    
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> R.U.T:</Strong> <span t-field="doc.partner_id.vat"></span><br />
+                                        
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> TELEFONO:</Strong> <span t-field="doc.partner_id.phone"></span><br />
+                                    
+                                    </div>
+                                    
+                                </div>
+                                <Strong> GIRO : </Strong> <span t-field="doc.partner_id.l10n_cl_activity_description"></span><br/>
+                                <Strong> CÓDIGO : </Strong> <span t-field="doc.partner_id.vat"></span><br/>
+                            </div>
+                            <div class="col-5" style="width:418px;margin-left:20px;border-radius: 15px;border: 1px solid black">
+                                <Strong> FECHA EMISIÓN : </Strong> <span t-field="doc.invoice_date"></span><br/>
+                                <Strong> FECHA VENCIMIENTO : </Strong> <span t-field="doc.invoice_date"></span><br/>
+                                <Strong> TIPO DESPACHO : </Strong> <span ></span><br/>
+                                <Strong> FORMA DE PAGO : </Strong> <span ></span><br/>
+                                <Strong> COND. DE PAGO : </Strong> <span t-field="doc.invoice_payment_term_id.name"/><br/>
+                                <Strong> VENDEDOR : </Strong> <span t-field="doc.invoice_user_id.name"></span><br/>
+                                
+                            </div>
+                            
+                        </div> 
+                    </div> 
+                    <div style="margin-top:10px;">
+                        
+                        <div class="row">
+                            
+                            <div class="col-5" style=" width:420px;margin-left:12px;border-radius: 15px;border: 1px solid black">
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Tipo de documento:</Strong><br />
+                                        <span t-field="doc.l10n_latam_document_type_id.name"></span><br />
+                                    </div>
+                                    <div class="col-3">
+                                        <Strong> Folio:</Strong><br />
+                                        <t t-set="name_split" t-value="doc.name.split(' ')"/>
+                                      
+                                        <span> <t t-esc="name_split[1]"/></span><br />
+                                    </div>
+                                    <div class="col-4">
+                                        <Strong> Fecha:</Strong><br />
+                                        <span t-field="doc.invoice_date"></span><br />
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-7" style="width:790px;margin-left:20px;border-radius: 15px;border: 1px solid black">
+                                <Strong> Direccion Origen : </Strong> <span t-field="doc.company_id.street"></span><br/>
+                                
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Comuna:</Strong> <span t-field="doc.company_id.city"></span><br/>
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> Ciudad:</Strong> <span t-field="doc.company_id.city"></span><br/>
+                                    </div>
+                                </div>
+                                <Strong> Direccion Destino :</Strong> <span t-field="doc.partner_id.street"></span><br/>
+                                
+                                <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <Strong> Comuna:</Strong> <span t-field="doc.partner_id.city"></span><br/>
+                                    </div>
+                                    <div class="col-5">
+                                        <Strong> Ciudad:</Strong> <span t-field="doc.partner_id.city"></span><br/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div><br/>                         
+                    <div class="page" >
+                        <div style="border-radius: 15px;border: 2px solid black;height: 700px;">
+                            <table class="table table-borderless" >
+                                <thead style="border-bottom:1px solid black;">
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">CANTIDAD</th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DETALLE </th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">PRECIO UNITARIO </th>
+                                    <th style="text-align: center;border-right:1px solid black;font-size: 10pt" scope="col">DESCUENTO</th>
+                                    <th style="text-align: center;font-size: 10pt" scope="col">PRECIO ITEM</th>
+                                </thead>
+                                    <tbody >
+                                        <tr t-foreach="doc.invoice_line_ids" t-as="o" >
+                                            <td style="text-align: left;font-size: 10pt">
+                                                <span t-field="o.quantity"></span>
+                                            </td > 
+                                            <td style="text-align: left;font-size: 10pt">
+                                                <span t-field="o.name"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt">
+                                                <span t-field="o.price_unit"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt">
+                                                <span t-field="o.discount"></span>
+                                            </td>
+                                            <td style="text-align: right;font-size: 10pt"> 
+                                                <span t-field="o.price_unit"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div><br/>
+                    <div> 
+                        <div class="row">
+                            
+                            <div class="col-5" style="width:500px;margin-left:12px;border-radius: 15px;border: 1px solid black"><br/>
+                                <span>NOMBRE :______________________________</span> 
+                                <span>RUT :______________</span> 
+                                <span>RECINTO:___________________________________________________</span> <br/>
+                                <span> FECHA:_________________ FIRMA:____________________________</span><br/>
+                                <span> El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto
+                                        en la letra b) del Art. 4º y la letra c) del Art. 5º de la Ley 19.983, acredita
+                                        que la entrega de las mercaderias o servicio(s) prestado(s) ha(n) sido
+                                        recibidos(s).</span><br/>
+                            </div>
+
+                            <div class="col-4" style="width:400px;margin-top:0px">
+                                <t t-if="doc.l10n_cl_sii_barcode">
+                                    <t t-set="barcode_stamp" t-value="doc._pdf417_barcode(doc.l10n_cl_sii_barcode)"/>
+                                    <t t-if="barcode_stamp">
+                                        <img class="img-fluid" t-attf-src="data:image/*;base64,{{barcode_stamp}}" style="width:400px"/>
+                                        <p t-att-style="'color: %s;' % doc.company_id.primary_color" class="text-center small">
+                                            Timbre Electrónico SII<br />
+                                            Resolución Nº: <span t-field="doc.company_id.l10n_cl_dte_resolution_number"/>
+                                            de Fecha: <span t-field="doc.company_id.l10n_cl_dte_resolution_date" t-field-options='{"widget": "date"}'/>
+                                            <span name="verification_url">Verifique documento en www.sii.cl</span>
+                                        </p>
+                                    </t>
+                                </t>
+                            </div>
+
+                            <div class="col-3" style="width:260px;border-radius:15px;border: 1px solid black"> 
+                                <br/>
+                                <div>
+                                    <div class="row justify-content-between" style=" font-size:85%">
+                                        <div class="col-7">
+                                            <span>Dcto.  </span> <br/> <br/>
+                                            <span>MONTO NETO </span><br/>
+                                            <span>MONTO IVA 19% </span><br/>
+                                            <span>MONTO EXENTO </span><br/><br/>
+                                            <strong>MONTO TOTAL</strong>
+                                        </div>
+                                        <div class="col-5" style="text-align: right">
+                                            <span t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                            <strong t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                            <strong t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/>
+                                            <strong /><br/> <br/>
+                                            <strong  t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/>
+                                        </div>
+                                    </div>
+                                    <!-- <br/>
+                                    <span >Dcto.  </span> <span class="m-5"  t-esc="doc.total_discount()" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/><br/><br/>
+                                    <span >MONTO Neto <strong class="m-3" style="margin-left:20px" t-field="doc.amount_untaxed" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></span><br/>
+                                    <span >MONTO IVA 19% <strong class="m-2"  t-field="doc.amount_tax" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/> </span><br/>
+                                    <span >MONTO EXENTO </span><br/>
+                            
+                                    <strong >MONTO TOTAL <span class="m-2" t-field="doc.amount_total" t-options='{"widget": "integer", "display_currency": doc.currency_id}'/></strong> -->
+                                </div>
+                            </div>
+                            
+                        </div> 
+                    </div> 
+                </t>  
+            </t>
+        </template>
+        <template id="report_template_kendatec">
+            <xpath expr="//t[@t-call='account.report_invoice_document']" position="replace">
+                <t t-if="docs.l10n_latam_document_type_id.code=='39'">
+        
+                    <t t-call="report_invoice.template_boleta"/>
+                </t>
+                <t t-if="docs.l10n_latam_document_type_id.code=='33'">
+                    <t t-call="report_invoice.template_factura"/>
+                </t>
+                <t t-if="docs.l10n_latam_document_type_id.code=='61'">
+                    <t t-call="report_invoice.template_ncredito"/>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>
